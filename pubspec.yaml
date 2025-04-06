@@ -1,0 +1,72 @@
+name: safespace
+description: "A new Flutter project."
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.6.1
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.8
+  google_nav_bar: ^5.0.7
+  line_icons: ^2.0.3
+  icons_plus: ^4.0.0
+  intro_screen_onboarding_flutter: ^1.0.0
+  smooth_page_indicator: ^1.1.0
+  shared_preferences: ^2.2.2
+
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0
+  flutter_native_splash: ^2.3.9
+
+flutter_native_splash:
+  color: "#ffffff"
+  image: assets/images/app.png
+  android_gravity: center
+  ios_content_mode: center
+  fullscreen: true
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/images/
+
+
+
+  fonts:
+    - family: Alegreya
+      fonts:
+        - asset: assets/fonts/static/Alegreya-Regular.ttf
+        - asset: assets/fonts/static/Alegreya-Bold.ttf
+          weight: 700
+        - asset: assets/fonts/static/Alegreya-Black.ttf
+          weight: 900
+        - asset: assets/fonts/static/Alegreya-ExtraBold.ttf
+          weight: 800
+        - asset: assets/fonts/static/Alegreya-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/static/Alegreya-SemiBold.ttf
+          weight: 600
+        - asset: assets/fonts/static/Alegreya-Italic.ttf
+          style: italic
+        - asset: assets/fonts/static/Alegreya-BoldItalic.ttf
+          weight: 700
+          style: italic
+        - asset: assets/fonts/static/Alegreya-BlackItalic.ttf
+          weight: 900
+          style: italic
+        - asset: assets/fonts/static/Alegreya-ExtraBoldItalic.ttf
+          weight: 800
+          style: italic
+        - asset: assets/fonts/static/Alegreya-MediumItalic.ttf
+          weight: 500
+          style: italic
+        - asset: assets/fonts/static/Alegreya-SemiBoldItalic.ttf
+          weight: 600
+          style: italic
