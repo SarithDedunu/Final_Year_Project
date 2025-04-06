@@ -48,8 +48,8 @@ class _NavBarState extends State<NavBar> {
                 text: 'Songs',
               ),
               GButton(
-                icon: LineIcons.bell,
-                text: 'Notification',
+                icon: LineIcons.stethoscope,
+                text: 'Councellors',
               ),
               GButton(
                 icon: LineIcons.user,

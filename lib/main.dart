@@ -4,8 +4,8 @@ import 'package:safespace/screens/notify.dart';
 import 'package:safespace/screens/navbar.dart';
 import 'package:safespace/screens/profile.dart';
 import 'package:safespace/screens/home_screen.dart';
-import 'package:safespace/screens/welcome_screen.dart';
 import 'package:safespace/screens/splashscreen.dart'; // ✅ Import splashscreen
+
 
 void main() {
   runApp(const MyApp());
