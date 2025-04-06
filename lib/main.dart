@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:safespace/screens/music.dart';
-import 'package:safespace/screens/notify.dart';
+import 'package:safespace/screens/doctor.dart';
 import 'package:safespace/screens/navbar.dart';
 import 'package:safespace/screens/profile.dart';
 import 'package:safespace/screens/home_screen.dart';
@@ -40,7 +40,7 @@ class _SafeSpaceAppState extends State<SafeSpaceApp> {
   final List<Widget> _pages = [
     HomeScreen(),
     SongsPage(),
-    NotificationsPage(),
+    Doctors(),
     ProfilePage(),
   ];
 

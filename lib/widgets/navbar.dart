@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:safespace/screens/music.dart';
-import 'package:safespace/screens/notify.dart';
+import 'package:safespace/screens/doctor.dart';
 import 'package:safespace/screens/profile.dart';
 import 'package:safespace/screens/home_screen.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
@@ -19,7 +19,7 @@ class _NavBarState extends State<NavBar> {
   List<Widget> _pages = [
     HomeScreen(), // Home Page
     SongsPage(), // Songs Page
-    NotificationsPage(), // Notifications Page
+    Doctors(), // Notifications Page
     ProfilePage(), // Profile Page
   ];
 

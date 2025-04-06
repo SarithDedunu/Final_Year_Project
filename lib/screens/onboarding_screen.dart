@@ -1,129 +1,126 @@
+import 'package:safespace/main.dart';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:safespace/main.dart'; // So we can push SafeSpaceApp
-import 'package:smooth_page_indicator/smooth_page_indicator.dart'; // Add in pubspec.yaml
+import 'package:safespace/screens/onboarding_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart'; // Where we go after onboarding
 
-
-class OnboardingScreen extends StatefulWidget {
-  const OnboardingScreen({super.key});
+class ChatOnboardingScreen extends StatefulWidget {
+  const ChatOnboardingScreen({super.key});
 
   @override
-  State<OnboardingScreen> createState() => _OnboardingScreenState();
+  _ChatOnboardingScreenState createState() => _ChatOnboardingScreenState();
 }
 
-class _OnboardingScreenState extends State<OnboardingScreen> {
-  final PageController _controller = PageController();
-  bool isLastPage = false;
+class _ChatOnboardingScreenState extends State<ChatOnboardingScreen> {
+  final TextEditingController _controller = TextEditingController();
+  final List<String> _messages = [
+    "Hi! Welcome to SafeSpace. I'm here to guide you through the app.",
+    "Are you ready to start learning about the features?"
+  ];
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  void _sendMessage() {
+    if (_controller.text.isEmpty) return;
+
+    setState(() {
+      _messages.add("You: ${_controller.text}");
+      _messages.add(_getBotResponse(_controller.text));
+    });
+
+    _controller.clear();
+  }
+
+  String _getBotResponse(String userInput) {
+    // Simple logic for responses, can be expanded
+    if (userInput.toLowerCase().contains("yes")) {
+      return "Great! Let’s get started. The app helps you track your mental health, provides resources, and more!";
+    } else if (userInput.toLowerCase().contains("no")) {
+      return "No worries! Take your time, and we’ll be here when you’re ready.";
+    } else {
+      return "I'm not sure what you mean. Can you say 'Yes' or 'No' to continue?";
+    }
+  }
+
+  void _finishOnboarding() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('onboardingComplete', true);
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (_) => const SafeSpaceApp()),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: PageView(
-        controller: _controller,
-        onPageChanged: (index) {
-          setState(() {
-            isLastPage = index == 2;
-          });
-        },
+      appBar: AppBar(title: const Text("Chat Onboarding")),
+      body: Column(
         children: [
-          buildPage(
-            title: "Welcome to SafeSpace",
-            description: "Your mental well-being companion.",
-            imagePath: "assets/images/onboard1.png",
-          ),
-          buildPage(
-            title: "Track your emotions",
-            description: "Keep a daily log of your mood and thoughts.",
-            imagePath: "assets/images/onboard2.png",
-          ),
-          buildPage(
-            title: "Find your calm",
-            description: "Access music, games and support when you need it.",
-            imagePath: "assets/images/onboard3.png",
-          ),
-        ],
-      ),
-      bottomSheet: isLastPage
-          ? TextButton(
-              onPressed: () async {
-                final prefs = await SharedPreferences.getInstance();
-                await prefs.setBool('onboardingComplete', true);
-
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(builder: (_) => const SafeSpaceApp()),
-                );
-              },
-              style: TextButton.styleFrom(
-                foregroundColor: Colors.white,
-                backgroundColor: Colors.deepPurple,
-                minimumSize: const Size.fromHeight(60),
-              ),
-              child: const Text("Get Started", style: TextStyle(fontSize: 20)),
-            )
-          : Container(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              height: 80,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  TextButton(
-                    onPressed: () {
-                      _controller.jumpToPage(2);
-                    },
-                    child: const Text("Skip"),
-                  ),
-                  SmoothPageIndicator(
-                    controller: _controller,
-                    count: 3,
-                    effect: const WormEffect(
-                      dotHeight: 10,
-                      dotWidth: 10,
-                      activeDotColor: Colors.deepPurple,
+          Expanded(
+            child: ListView.builder(
+              reverse: true,
+              itemCount: _messages.length,
+              itemBuilder: (context, index) {
+                return Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Align(
+                    alignment: _messages[index].startsWith("You:")
+                        ? Alignment.centerRight
+                        : Alignment.centerLeft,
+                    child: Container(
+                      padding: const EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                        color: _messages[index].startsWith("You:")
+                            ? Colors.blueAccent
+                            : Colors.grey[300],
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Text(
+                        _messages[index],
+                        style: TextStyle(
+                          color: _messages[index].startsWith("You:")
+                              ? Colors.white
+                              : Colors.black,
+                        ),
+                      ),
                     ),
                   ),
-                  TextButton(
-                    onPressed: () {
-                      _controller.nextPage(
-                        duration: const Duration(milliseconds: 500),
-                        curve: Curves.easeInOut,
-                      );
-                    },
-                    child: const Text("Next"),
+                );
+              },
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              children: [
+                Expanded(
+                  child: TextField(
+                    controller: _controller,
+                    decoration: const InputDecoration(
+                      hintText: 'Type your response...',
+                      border: OutlineInputBorder(),
+                    ),
                   ),
-                ],
+                ),
+                IconButton(
+                  icon: const Icon(Icons.send),
+                  onPressed: _sendMessage,
+                ),
+              ],
+            ),
+          ),
+          // Finish button once user reaches the end
+          if (_messages.last.contains("No worries!"))
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: ElevatedButton(
+                onPressed: _finishOnboarding,
+                child: const Text("Finish Onboarding"),
               ),
             ),
-    );
-  }
-
-  Widget buildPage({
-    required String title,
-    required String description,
-    required String imagePath,
-  }) {
-    return Container(
-      padding: const EdgeInsets.all(40),
-      color: Colors.white,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Image.asset(imagePath, height: 300),
-          const SizedBox(height: 40),
-          Text(
-            title,
-            style: const TextStyle(
-              fontSize: 26,
-              fontWeight: FontWeight.bold,
-              color: Colors.deepPurple,
-            ),
-          ),
-          const SizedBox(height: 20),
-          Text(
-            description,
-            textAlign: TextAlign.center,
-            style: const TextStyle(fontSize: 18, color: Colors.black54),
-          ),
         ],
       ),
     );
