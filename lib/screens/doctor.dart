@@ -1,84 +1,138 @@
 import 'package:flutter/material.dart';
+import 'package:safespace/widgets/doctor_card.dart';
+import 'package:safespace/dummydata/dummy_data.dart';
 
-class Doctors extends StatelessWidget {
+void main() {
+  runApp(CounsellorsApp());
+}
+
+class CounsellorsApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: CounsellorsHomePage(),
+      debugShowCheckedModeBanner: false,
+    );
+  }
+}
+
+class CounsellorsHomePage extends StatelessWidget {
+  final List<String> categories = [
+    "Cognitive Behavioral Therapists",
+    "Trauma Therapists",
+    "Addiction Counsellors",
+    "Psychiatrists"
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Sariha_Kapoor'),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text(
-              'Find the doctor suitable to you',
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            const SizedBox(height: 16),
-            // Search bar
-            TextField(
-              decoration: InputDecoration(
-                hintText: 'Search the Doctor, Category',
-                prefixIcon: const Icon(Icons.search),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8),
-                ),
-              ),
-            ),
-            const SizedBox(height: 24),
-            // Category section
-            const Text(
-              'Category',
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            const SizedBox(height: 8),
-            // Category items
-            Column(
-              children: [
-                ListTile(
-                  title: const Text(
-                    'Cognitive Behavioral Therapists',
-                    style: TextStyle(fontWeight: FontWeight.bold),
+      backgroundColor: Colors.white,
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Profile Header
+              Row(
+                children: [
+                  CircleAvatar(
+                    backgroundImage: AssetImage(
+                        'assets/profile.jpg'), // Replace with your asset
+                    radius: 24,
                   ),
-                  subtitle: Column(
+                  SizedBox(width: 10),
+                  Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: const [
-                      Text('Trauma Therapists'),
-                      Text('Addiction Counsellors'),
+                    children: [
+                      Text(
+                        "Sarina_Kapoor",
+                        style: TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.bold),
+                      ),
+                      Text(
+                        "Find the doctor suitable to you",
+                        style: TextStyle(fontSize: 12, color: Colors.grey[700]),
+                      ),
                     ],
+                  )
+                ],
+              ),
+              SizedBox(height: 20),
+
+              // Search Bar
+              TextField(
+                decoration: InputDecoration(
+                  hintText: "Search the Doctor , Category",
+                  prefixIcon: Icon(Icons.search),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(16),
+                    borderSide: BorderSide.none,
                   ),
+                  filled: true,
+                  fillColor: Colors.grey[200],
                 ),
-                const Divider(),
-                const ListTile(
-                  title: Text('Psychiat'),
+              ),
+              SizedBox(height: 20),
+
+              // Category
+              // Replace the previous Category widget with this
+              Text(
+                "Category",
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
+              SizedBox(height: 10),
+              SizedBox(
+                height: 129,
+                child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: categories.length,
+                  itemBuilder: (context, index) {
+                    return Container(
+                      width: 102,
+                      margin: EdgeInsets.only(right: 12),
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                          image: AssetImage(
+                              'assets/category_${index + 1}.jpg'), // name your images as category_1.jpg etc.
+                          fit: BoxFit.cover,
+                        ),
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                      child: Container(
+                        alignment: Alignment.center,
+                        padding: EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+                          color: Colors.black.withOpacity(0.5),
+                          borderRadius: BorderRadius.circular(16),
+                        ),
+                        child: Text(
+                          categories[index],
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 12,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    );
+                  },
                 ),
-                const Divider(),
-              ],
-            ),
-            const SizedBox(height: 16),
-            // Specialist section
-            const Text(
-              'Specialist',
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
               ),
-            ),
-            // Here you can add your specialist list or other content
-            Expanded(
-              child: Center(
-                child: Text("Specialist doctors will be listed here"),
+
+              SizedBox(height: 20),
+
+              // Specialist
+              Text(
+                "Specialist",
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
-            ),
-          ],
+              SizedBox(height: 10),
+              SpecialistCarousel(),
+            ],
+          ),
         ),
       ),
     );

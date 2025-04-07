@@ -19,7 +19,7 @@ class _NavBarState extends State<NavBar> {
   List<Widget> _pages = [
     HomeScreen(), // Home Page
     SongsPage(), // Songs Page
-    Doctors(), // Notifications Page
+    CounsellorsApp(), // Notifications Page
     ProfilePage(), // Profile Page
   ];
 

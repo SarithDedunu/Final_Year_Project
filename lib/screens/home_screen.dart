@@ -121,35 +121,57 @@ class HomeScreen extends StatelessWidget {
       onTap: () {
         Navigator.push(
           context,
-          MaterialPageRoute(
-              builder: (context) => ChatBotPage()), // Navigate to ChatBotPage
+          MaterialPageRoute(builder: (context) => ChatBotPage()),
         );
       },
-      child: Row(
-        children: [
-          Expanded(
-            child: Container(
-              padding: const EdgeInsets.all(12),
-              decoration: BoxDecoration(
-                color: Colors.grey.shade300,
-                border: Border.all(
-                    width: 3, color: const Color.fromARGB(255, 9, 9, 9)),
-                borderRadius: BorderRadius.circular(19),
+      child: Material(
+        elevation: 6,
+        borderRadius: BorderRadius.circular(19),
+        shadowColor: Colors.black.withOpacity(0.3),
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+          decoration: BoxDecoration(
+            color: const Color.fromARGB(119, 56, 199, 168), // Your custom background color
+            borderRadius: BorderRadius.circular(19),
+          ),
+          child: Row(
+            children: [
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: const [
+                    Text(
+                      'Hello, Sarina!',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                        color: Color.fromARGB(255, 1, 0, 0),
+                      ),
+                    ),
+                    SizedBox(height: 4),
+                    Text(
+                      'Let’s Chat',
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: Color.fromARGB(179, 0, 0, 0),
+                      ),
+                    ),
+                  ],
+                ),
               ),
-              child: const Text('Hello, Sarina!\nLet’s Chat',
-                  style: TextStyle(fontWeight: FontWeight.bold)),
-            ),
+              const SizedBox(width: 10),
+              ClipRRect(
+                borderRadius: BorderRadius.circular(25),
+                child: Image.asset(
+                  'assets/images/app.png',
+                  width: 50,
+                  height: 50,
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ],
           ),
-          const SizedBox(width: 10),
-          Transform.translate(
-            offset: const Offset(0, 35),
-            child: Image.asset(
-              'assets/images/app.png',
-              width: 50,
-              height: 50,
-            ),
-          ),
-        ],
+        ),
       ),
     );
   }

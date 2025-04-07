@@ -40,7 +40,7 @@ class _SafeSpaceAppState extends State<SafeSpaceApp> {
   final List<Widget> _pages = [
     HomeScreen(),
     SongsPage(),
-    Doctors(),
+    CounsellorsHomePage(),
     ProfilePage(),
   ];
 
