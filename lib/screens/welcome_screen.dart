@@ -33,7 +33,8 @@ class WelcomeScreen extends StatelessWidget {
                             )),
                         TextSpan(
                             text:
-                                '\nEnter personal details to your employee account',
+                                '\nwelcome YOU to SafeSpace, your personal mental health\n'
+                                'and wellness companion. We are here to support you\n',
                             style: TextStyle(
                               fontSize: 20,
                               // height: 0,
@@ -52,7 +53,7 @@ class WelcomeScreen extends StatelessWidget {
                   const Expanded(
                     child: WelcomeButton(
                       buttonText: 'Sign in',
-                      onTap: SignInScreen(),
+                      onTap: LoginScreen(),
                       color: Colors.transparent,
                       textColor: Colors.white,
                     ),

@@ -1,40 +1,39 @@
+import '../screens/chatbot.dart';
 import 'package:flutter/material.dart';
-import 'package:safespace/screens/chatbot.dart';
 
 class ChatBubble extends StatelessWidget {
-  final VoidCallback? onTap;
-  final String userName;
-  
-  const ChatBubble({
-    super.key,
-    this.onTap,
-    required this.userName,
-  });
+  final String username;
+
+  const ChatBubble({super.key, required this.username});
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: onTap ?? () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => ChatBotPage()),
-        );
+      onTap: () {
+        Navigator.push(context, MaterialPageRoute(builder: (context) => ChatBotPage()));
       },
-      child: Container(
-        // ... [rest of the widget code from above]
-        child: Column(
-          children: [
-            Row(
-              children: [
-                Text(
-                  'Hello, $userName!', // Now dynamic
-                  // ... [rest stays the same]
-                ),
-              ],
+      child: Row(
+        children: [
+          Expanded(
+            child: Container(
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: Colors.grey.shade300,
+                border: Border.all(width: 3, color: const Color.fromARGB(255, 9, 9, 9)),
+                borderRadius: BorderRadius.circular(19),
+              ),
+              child: Text(
+                'Hello, $username!\nLet\'s Chat',
+                style: const TextStyle(fontWeight: FontWeight.bold),
+              ),
             ),
-            // ... [other elements]
-          ],
-        ),
+          ),
+          const SizedBox(width: 10),
+          Transform.translate(
+            offset: const Offset(0, 35),
+            child: Image.asset('assets/images/app.png', width: 50, height: 50),
+          ),
+        ],
       ),
     );
   }

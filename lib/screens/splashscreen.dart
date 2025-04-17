@@ -1,5 +1,6 @@
 import 'package:safespace/main.dart';
 import 'package:flutter/material.dart';
+import 'package:safespace/screens/welcome_screen.dart';
 import 'package:safespace/screens/onboarding_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -26,7 +27,7 @@ class _SplashScreenState extends State<SplashScreen> {
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(
-        builder: (_) => showHome ? const SafeSpaceApp() : const ChatOnboardingScreen(),
+        builder: (_) => showHome ? const WelcomeScreen() : const ChatOnboardingScreen(),
       ),
     );
   }

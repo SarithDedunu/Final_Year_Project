@@ -95,7 +95,7 @@ class CounsellorsHomePage extends StatelessWidget {
                       decoration: BoxDecoration(
                         image: DecorationImage(
                           image: AssetImage(
-                              'assets/category_${index + 1}.jpg'), // name your images as category_1.jpg etc.
+                              'assets/images/category_${index + 1}.jpg'), // name your images as category_1.jpg etc.
                           fit: BoxFit.cover,
                         ),
                         borderRadius: BorderRadius.circular(16),

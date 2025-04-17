@@ -1,20 +1,73 @@
-import '../theme/theme.dart';
 import 'package:flutter/material.dart';
+import 'package:safespace/theme/theme.dart';
 import 'package:icons_plus/icons_plus.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:safespace/screens/home_screen.dart';
 import 'package:safespace/screens/signup_screen.dart';
 import 'package:safespace/widgets/custom_scaffold.dart';
 
 
-class SignInScreen extends StatefulWidget {
-  const SignInScreen({super.key});
+
+class LoginScreen extends StatefulWidget {
+  const LoginScreen({super.key});
 
   @override
-  State<SignInScreen> createState() => _SignInScreenState();
+  State<LoginScreen> createState() => _LoginScreenState();
 }
 
-class _SignInScreenState extends State<SignInScreen> {
-  final _formSignInKey = GlobalKey<FormState>();
-  bool rememberPassword = true;
+class _LoginScreenState extends State<LoginScreen> {
+  final _formKey = GlobalKey<FormState>();
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+  bool _isLoading = false;
+  bool _rememberMe = true;
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
+
+  Future<void> _signIn() async {
+    if (!_formKey.currentState!.validate()) return;
+
+    setState(() => _isLoading = true);
+
+    try {
+      final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: _emailController.text.trim(),
+        password: _passwordController.text.trim(),
+      );
+
+      if (credential.user != null && mounted) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => HomeScreen(username: '',),
+          ),
+        );
+      }
+    } on FirebaseAuthException catch (e) {
+      final message = switch (e.code) {
+        'invalid-email' => 'Invalid email format.',
+        'user-disabled' => 'Account disabled.',
+        'user-not-found' => 'No user found with this email.',
+        'wrong-password' => 'Incorrect password.',
+        'too-many-requests' => 'Too many attempts. Try again later.',
+        _ => 'Login failed. Please try again.',
+      };
+
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(message)),
+        );
+      }
+    } finally {
+      if (mounted) setState(() => _isLoading = false);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return CustomScaffold(
@@ -39,7 +92,7 @@ class _SignInScreenState extends State<SignInScreen> {
               ),
               child: SingleChildScrollView(
                 child: Form(
-                  key: _formSignInKey,
+                  key: _formKey,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
@@ -55,6 +108,7 @@ class _SignInScreenState extends State<SignInScreen> {
                         height: 40.0,
                       ),
                       TextFormField(
+                        controller: _emailController,
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return 'Please enter Email';
@@ -68,15 +122,9 @@ class _SignInScreenState extends State<SignInScreen> {
                             color: Colors.black26,
                           ),
                           border: OutlineInputBorder(
-                            borderSide: const BorderSide(
-                              color: Colors.black12, // Default border color
-                            ),
                             borderRadius: BorderRadius.circular(10),
                           ),
                           enabledBorder: OutlineInputBorder(
-                            borderSide: const BorderSide(
-                              color: Colors.black12, // Default border color
-                            ),
                             borderRadius: BorderRadius.circular(10),
                           ),
                         ),
@@ -85,6 +133,7 @@ class _SignInScreenState extends State<SignInScreen> {
                         height: 25.0,
                       ),
                       TextFormField(
+                        controller: _passwordController,
                         obscureText: true,
                         obscuringCharacter: '*',
                         validator: (value) {
@@ -100,15 +149,9 @@ class _SignInScreenState extends State<SignInScreen> {
                             color: Colors.black26,
                           ),
                           border: OutlineInputBorder(
-                            borderSide: const BorderSide(
-                              color: Colors.black12, // Default border color
-                            ),
                             borderRadius: BorderRadius.circular(10),
                           ),
                           enabledBorder: OutlineInputBorder(
-                            borderSide: const BorderSide(
-                              color: Colors.black12, // Default border color
-                            ),
                             borderRadius: BorderRadius.circular(10),
                           ),
                         ),
@@ -122,10 +165,10 @@ class _SignInScreenState extends State<SignInScreen> {
                           Row(
                             children: [
                               Checkbox(
-                                value: rememberPassword,
+                                value: _rememberMe,
                                 onChanged: (bool? value) {
                                   setState(() {
-                                    rememberPassword = value!;
+                                    _rememberMe = value!;
                                   });
                                 },
                                 activeColor: lightColorScheme.primary,
@@ -155,61 +198,14 @@ class _SignInScreenState extends State<SignInScreen> {
                       SizedBox(
                         width: double.infinity,
                         child: ElevatedButton(
-                          onPressed: () {
-                            if (_formSignInKey.currentState!.validate() &&
-                                rememberPassword) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                  content: Text('Processing Data'),
-                                ),
-                              );
-                            } else if (!rememberPassword) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                    content: Text(
-                                        'Please agree to the processing of personal data')),
-                              );
-                            }
-                          },
-                          child: const Text('Sign up'),
+                          onPressed: _signIn,
+                          child: const Text('Sign in'),
                         ),
                       ),
                       const SizedBox(
                         height: 25.0,
                       ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Expanded(
-                            child: Divider(
-                              thickness: 0.7,
-                              color: Colors.grey.withOpacity(0.5),
-                            ),
-                          ),
-                          const Padding(
-                            padding: EdgeInsets.symmetric(
-                              vertical: 0,
-                              horizontal: 10,
-                            ),
-                            child: Text(
-                              'Sign up with',
-                              style: TextStyle(
-                                color: Colors.black45,
-                              ),
-                            ),
-                          ),
-                          Expanded(
-                            child: Divider(
-                              thickness: 0.7,
-                              color: Colors.grey.withOpacity(0.5),
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(
-                        height: 25.0,
-                      ),
-                      Row(
+                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           Logo(Logos.facebook_f),
@@ -221,7 +217,6 @@ class _SignInScreenState extends State<SignInScreen> {
                       const SizedBox(
                         height: 25.0,
                       ),
-                      // don't have an account
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [

@@ -4,6 +4,10 @@ import 'chatbot.dart'; // Import ChatBotPage
 import 'package:safespace/screens/notifications.dart';
 
 class HomeScreen extends StatelessWidget {
+  final String username;
+
+  const HomeScreen({Key? key, required this.username}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,7 +23,7 @@ class HomeScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    'Welcome back, Sarina!',
+                    'Welcome back, $username!',
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 22,
@@ -27,16 +31,13 @@ class HomeScreen extends StatelessWidget {
                     ),
                   ),
                   IconButton(
-                    icon: Icon(
-                      Icons.notifications,
-                    ),
+                    icon: Icon(Icons.notifications),
                     onPressed: () {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
                             builder: (context) => Notifications()),
                       );
-                      // Handle notification icon press here
                     },
                   ),
                 ],
@@ -62,7 +63,7 @@ class HomeScreen extends StatelessWidget {
               const SizedBox(height: 20),
               // Motivational message
               const Text(
-                'You are stronger than you think. Take a deep breath you’ve got this! 😊',
+                'You are stronger than you think. Take a deep breath you\'ve got this! 😊',
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 20),
@@ -79,7 +80,7 @@ class HomeScreen extends StatelessWidget {
                   children: [
                     _taskCard(
                         'Peer Group Meetup',
-                        'Let’s open up to the thing that matters among the people',
+                        "Let',s open up to the thing that matters among the people",
                         Icons.people,
                         Colors.pink.shade100),
                     _taskCard(
@@ -131,7 +132,7 @@ class HomeScreen extends StatelessWidget {
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
           decoration: BoxDecoration(
-            color: const Color.fromARGB(119, 56, 199, 168), // Your custom background color
+            color: const Color.fromARGB(119, 56, 199, 168),
             borderRadius: BorderRadius.circular(19),
           ),
           child: Row(
@@ -139,9 +140,9 @@ class HomeScreen extends StatelessWidget {
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: const [
+                  children: [
                     Text(
-                      'Hello, Sarina!',
+                      'Hello, $username!',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 16,
@@ -150,7 +151,7 @@ class HomeScreen extends StatelessWidget {
                     ),
                     SizedBox(height: 4),
                     Text(
-                      'Let’s Chat',
+                      "Let\'s Chat",
                       style: TextStyle(
                         fontSize: 14,
                         color: Color.fromARGB(179, 0, 0, 0),

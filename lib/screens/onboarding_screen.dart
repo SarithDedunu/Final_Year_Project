@@ -1,5 +1,6 @@
 import 'package:safespace/main.dart';
 import 'package:flutter/material.dart';
+import 'package:safespace/screens/welcome_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ChatOnboardingScreen extends StatefulWidget {
@@ -48,7 +49,7 @@ class _ChatOnboardingScreenState extends State<ChatOnboardingScreen> {
 
     Navigator.pushReplacement(
       context,
-      MaterialPageRoute(builder: (_) => const SafeSpaceApp()),
+      MaterialPageRoute(builder: (_) => const WelcomeScreen()),//scrennnnnnnn
     );
   }
 
