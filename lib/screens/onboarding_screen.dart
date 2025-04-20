@@ -1,4 +1,3 @@
-import 'package:safespace/main.dart';
 import 'package:flutter/material.dart';
 import 'package:safespace/screens/welcome_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -49,7 +48,7 @@ class _ChatOnboardingScreenState extends State<ChatOnboardingScreen> {
 
     Navigator.pushReplacement(
       context,
-      MaterialPageRoute(builder: (_) => const WelcomeScreen()),//scrennnnnnnn
+      MaterialPageRoute(builder: (_) => const WelcomeScreen()), // Navigate to WelcomeScreen
     );
   }
 
@@ -117,7 +116,7 @@ class _ChatOnboardingScreenState extends State<ChatOnboardingScreen> {
                 ],
               ),
             )
-          else // End of flow
+          else // End of flow, show finish button
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
               child: ElevatedButton(

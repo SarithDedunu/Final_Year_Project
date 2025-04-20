@@ -47,7 +47,7 @@ class NavBar extends StatelessWidget {
                 text: 'Entertainment',
               ),
               GButton(
-                icon: LineIcons.user,
+                icon: LineIcons.stethoscope,
                 text: 'Doctors',
               ),
               const GButton(
